@@ -84,44 +84,6 @@ class MainActivity : ComponentActivity() {
                 Text("Request WRITE_EXTERNAL_STORAGE Permission")
             }
             Spacer(modifier = Modifier.height(8.dp))
-
-        /*
-
-        // Button für WAKE_LOCK-Berechtigung
-            Button(onClick = { requestPermission(wakeLockPermission) }) {
-                Text("Request WAKE_LOCK Permission")
-            }
-            Spacer(modifier = Modifier.height(8.dp))
-
-        // Button für RECEIVE_BOOT_COMPLETED-Berechtigung
-            Button(onClick = { requestPermission(receiveBootCompletedPermission) }) {
-                Text("Request RECEIVE_BOOT_COMPLETED Permission")
-            }
-            Spacer(modifier = Modifier.height(8.dp))
-
-        // Button für NOTIFICATION_POLICY-Berechtigung
-            Button(onClick = { requestPermission(notificationPolicyPermission) }) {
-                Text("Request NOTIFICATION_POLICY Permission")
-            }
-            Spacer(modifier = Modifier.height(8.dp))
-
-        // Button für ACCESS_NOTIFICATION_POLICY-Berechtigung
-            Button(onClick = { requestPermission(accessNotificationPolicyPermission) }) {
-                Text("Request ACCESS_NOTIFICATION_POLICY Permission")
-            }
-            Spacer(modifier = Modifier.height(8.dp))
-
-        // Button für POST_NOTIFICATIONS-Berechtigung
-            Button(onClick = { requestPermission(postNotificationsPermission) }) {
-                Text("Request POST_NOTIFICATIONS Permission")
-
-        // Button für FOREGROUND_SERVICE-Berechtigung
-            Button(onClick = { requestPermission(foregroundServicePermission) }) {
-                Text("Request FOREGROUND_SERVICE Permission")
-            }
-            Spacer(modifier = Modifier.height(8.dp))
-         */
-
             }
         }
 
@@ -137,18 +99,3 @@ class MainActivity : ComponentActivity() {
 
 
 }
-
-
-/*
-  override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-      super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-
-      for ((index, permission) in permissions.withIndex()) {
-          if (grantResults[index] == PackageManager.PERMISSION_GRANTED) {
-              Toast.makeText(this, "$permission granted", Toast.LENGTH_SHORT).show()
-          } else {
-              Toast.makeText(this, "$permission denied", Toast.LENGTH_SHORT).show()
-          }
-      }
-  }
-*/
