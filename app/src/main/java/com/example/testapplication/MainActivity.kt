@@ -1,10 +1,12 @@
 package com.example.testapplication
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
@@ -32,18 +34,9 @@ class MainActivity : ComponentActivity() {
     private val accessNotificationPolicyPermission = Manifest.permission.ACCESS_NOTIFICATION_POLICY
     private val postNotificationsPermission = Manifest.permission.POST_NOTIFICATIONS
     private val foregroundServicePermission = Manifest.permission.FOREGROUND_SERVICE
-    private val notificationPolicyPermission = "android.permission.NOTIFICATION_POLICY"
+    private val useexactalarm = Manifest.permission.USE_EXACT_ALARM
+    private val usefullscreenintent = Manifest.permission.USE_FULL_SCREEN_INTENT
 
-
-    private val permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-        if (isGranted) {
-            // Berechtigung gewährt
-            Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show()
-        } else {
-            // Berechtigung verweigert
-            Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show()
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,48 +47,69 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+
+    val permissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                // Berechtigung gewährt
+                Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show()
+            } else {
+                // Berechtigung verweigert
+                Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show()
+            }
+        }
+
     @Composable
     fun PermissionRequestScreen() {
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp)
         ) {
             // Button für Standort-Berechtigung
-            Button(onClick = { requestPermission(locationPermission) }) {
-                Text("Request Location Permission")
-            }
+            PermissionButton(permission = locationPermission, text = "Request Location Permission")
             Spacer(modifier = Modifier.height(8.dp))
 
             // Button für VIBRATE-Berechtigung
-            Button(onClick = { requestPermission(vibratePermission) }) {
-                Text("Request VIBRATE Permission")
-            }
+            PermissionButton(permission = vibratePermission, text = "Request Vibrate Permission")
             Spacer(modifier = Modifier.height(8.dp))
 
             // Button für READ_EXTERNAL_STORAGE-Berechtigung
-            Button(onClick = { requestPermission(readExternalStoragePermission) }) {
-                Text("Request READ_EXTERNAL_STORAGE Permission")
-            }
+            PermissionButton(permission = readExternalStoragePermission, text = "Request read storage Permission")
             Spacer(modifier = Modifier.height(8.dp))
 
             // Button für WRITE_EXTERNAL_STORAGE-Berechtigung
-            Button(onClick = { requestPermission(writeExternalStoragePermission) }) {
-                Text("Request WRITE_EXTERNAL_STORAGE Permission")
-            }
-            Spacer(modifier = Modifier.height(8.dp))
-            }
-        }
-
-
-    private fun requestPermission(permission: String) {
-        if (ActivityCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(this, "Permission already granted", Toast.LENGTH_SHORT).show()
-        } else {
-            permissionLauncher.launch(permission)
+            PermissionButton(permission = writeExternalStoragePermission, text = "Request write storage Permission")
         }
     }
 
-
-
+    @Composable
+    fun PermissionButton(permission: String, text: String) {
+        val permissionLauncher =
+            rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+                if (isGranted) {
+                    // Berechtigung gewährt
+                    Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show()
+                } else {
+                    // Berechtigung verweigert
+                    Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show()
+                }
+            }
+        Button(onClick = {
+            if (ActivityCompat.checkSelfPermission(
+                    this,
+                    permission
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                Toast.makeText(this , "Permission already granted", Toast.LENGTH_SHORT).show()
+            } else {
+                permissionLauncher.launch(permission)
+            }
+        })
+        {
+            Text(text)
+        }
+    }
 }
+
