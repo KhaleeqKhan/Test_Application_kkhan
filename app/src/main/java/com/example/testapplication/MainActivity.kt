@@ -47,9 +47,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-
-    val permissionLauncher =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+    val permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
                 // Berechtigung gewährt
                 Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show()
@@ -61,7 +59,6 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     fun PermissionRequestScreen() {
-
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -96,17 +93,16 @@ class MainActivity : ComponentActivity() {
                     Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show()
                 }
             }
+
         Button(onClick = {
-            if (ActivityCompat.checkSelfPermission(
-                    this,
-                    permission
-                ) == PackageManager.PERMISSION_GRANTED
-            ) {
+            if (ActivityCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(this , "Permission already granted", Toast.LENGTH_SHORT).show()
-            } else {
+            }
+            else {
                 permissionLauncher.launch(permission)
             }
         })
+
         {
             Text(text)
         }
